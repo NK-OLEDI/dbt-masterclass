@@ -1,0 +1,12 @@
+snapshots:
+  - name: users_snapshot
+    relation: source('raw', 'users')
+    description: >
+      Tracks all status changes o the users' table over time.
+    config:
+      schema: snapshots
+      unique_key: id
+      strategy: check
+      check_cols:
+        - street_address
+        - portal_code
