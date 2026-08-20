@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_order_items_joined
+    description: Order items joined to products
+    columns:
+      - name: order_item_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_orders_pivoted_status_dates
+    description: One row per order with lifecycle durations
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_users_order_history_rollup
+    description: One row per user
+    columns:
+      - name: user_id
+        data_tests:
+          - unique
+          - not_null

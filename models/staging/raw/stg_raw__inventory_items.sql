@@ -9,7 +9,7 @@ source as (
 renamed as (
 
     select
-        id,
+        id as inventory_item_id,
         product_id,
         created_at,
         sold_at,

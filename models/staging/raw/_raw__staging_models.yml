@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: stg_raw__users
+    description: One row per user. Light renaming/cleanup only, no joins.
+    columns:
+      - name: user_id
+        description: Primary key for my staging users table
+        data_tests:
+          - unique
+          - not_null
+
+      - name: traffic_source
+        description: >
+          Acquisition channel at signup
+
+      - name: created_at
+        description: User signup timestamp
+        data_tests:
+          - not_in_future
+
+  - name: stg_thelook__orders
+    description: The orders table
+    columns:
+      - name: order_id
+        description: Primary key 
+        data_tests:
+          - not_null
+          - unique
+
+      - name: user_id
+        description: foreign key 
+        data_tests:
+          - not null
+          - relationships:
+              argument:
+                to: ref('atg_raw__users')
+                field: user_id
+
+      - name: order_status
+        description: The unique order status in my order table.
+        data_tests:
+          - accepted_values:
+              arguments:
+                value: ['cancelled', 'completed', 'processing', 'returned', 'shipped']
+  
+  - name: stg_thelook__order_items
+    decription: Order line items
+    columns:
+      - name: order_item_id
+        description: Primary key 
+        data_tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg-thelook__orders')
+                field: order_id
+
+      - name: product_id
+        description: foreign key 
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg-thelook__orders')
+                field: product_id
+
+      - name: order_status
+        description: The unique order status in my order table.
+        data_tests:
+          - accepted_values:
+              arguments:
+                value: ['cancelled', 'completed', 'processing', 'returned', 'shipped']
+              
+      - name: sale_price
+        description: Sales price of order item sold by the seller
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: created_at
+        description: When the order item was created
+        data_tests:
+          - not_in_future
+
+  - name: stg_thelook__products
+    description: Product catalog. One row per product.
+    columns:
+      - name: product_id
+        description: Primary key 
+        data_tests:
+          - unique
+          - not_null
+      - name: distribution_center_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__distribution_centers')
+                field: distribution_center_id
+      - name: retail_price
+        data_tests:
+            - dbt_utils.accepted_range:
+                arguments:
+                  min_value: 0
+            
+          
+          
+
+          

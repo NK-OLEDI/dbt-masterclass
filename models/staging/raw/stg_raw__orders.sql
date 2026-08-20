@@ -11,7 +11,7 @@ renamed as (
     select
         order_id,
         user_id,
-        status as order_status,
+        {{ standardize_text ('status')}} as order_status,
         gender,
         created_at,
         returned_at,

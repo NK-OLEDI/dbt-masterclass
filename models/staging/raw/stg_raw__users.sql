@@ -14,7 +14,7 @@ traffic_source as (
 enriched as (
 
     select
-        id,
+        id as user_id,
         first_name,
         last_name,
         email,
@@ -27,11 +27,10 @@ enriched as (
         country,
         latitude,
         longitude,
-        s.traffic_source,
         created_at,
         user_geom,
         channel_group,
-        tc.traffic_source
+        tc.traffic_source as traffic_source
 
     from source as s
     left join traffic_source as tc

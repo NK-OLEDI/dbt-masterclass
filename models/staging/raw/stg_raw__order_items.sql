@@ -9,12 +9,12 @@ source as (
 renamed as (
 
     select
-        id,
+        id as order_item_id,
         order_id,
         user_id,
         product_id,
         inventory_item_id,
-        status,
+        {{ standardize_text ('status')}} as order_status,
         created_at,
         shipped_at,
         delivered_at,
