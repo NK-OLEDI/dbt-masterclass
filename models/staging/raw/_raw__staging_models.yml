@@ -20,7 +20,7 @@ models:
           - not_in_future
 
   - name: stg_thelook__orders
-    description: The orders table
+    description: "{{ doc('dataset_is_live') }}"
     columns:
       - name: order_id
         description: Primary key 
@@ -38,7 +38,7 @@ models:
                 field: user_id
 
       - name: order_status
-        description: The unique order status in my order table.
+        description: "{{ doc('order_status_grain') }}"
         data_tests:
           - accepted_values:
               arguments:
@@ -70,7 +70,7 @@ models:
                 field: product_id
 
       - name: order_status
-        description: The unique order status in my order table.
+        description: "{{ doc('order_status_grain') }}"
         data_tests:
           - accepted_values:
               arguments:

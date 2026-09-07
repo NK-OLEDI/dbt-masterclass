@@ -9,4 +9,4 @@ snapshots:
       strategy: check
       check_cols:
         - street_address
-        - portal_code
+        - postal_code
